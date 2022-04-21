@@ -1,5 +1,6 @@
 CREATE TABLE question (
  queston_id SERIAL,
+ -- fix typo
  product_id INTEGER NOT NULL,
  question_body TEXT NOT NULL,
  question_date TEXT NOT NULL,
