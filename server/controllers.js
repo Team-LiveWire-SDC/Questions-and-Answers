@@ -1,8 +1,8 @@
-const models = require('../models/models.js');
+const models = require('./models');
 
 module.exports = {
   get: function (req, res) {
-    models.getAllQuestionsByProduct()
+    models.get()
       .then(data => res.send(data.rows))
       .catch(err => console.log(err));
   },

@@ -1,7 +1,6 @@
 const express = require('express');
-const axios = require('axios');
 const cors = require('cors');
-const controllers = require('./controllers.js');
+const controllers = require('./controllers/controllers.js');
 const PORT = 3000
 
 const app = express();
