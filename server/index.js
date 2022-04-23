@@ -5,7 +5,18 @@ const PORT = 3000
 
 const app = express();
 
-app.get('/questions', controllers.get)
+app.get('/qa/questions/:product_id', controllers.getAllQuestionsByProduct)
+
+app.get('/qa/questions/:question_id/answers', controllers.getAllAnswersByQuestion)
+
+app.put('/qa/questions/:question_id/helpful', controllers.updateQuestionHelpful)
+
+app.put('/qa/answers/:answer_id/helpful', controllers.updateAnswerHelpful)
+
+app.put('/qa/questions/:question_id/report', controllers.reportQuestion)
+
+app.put('/qa/answers/:answer_id/report', controllers.reportAnswer)
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
