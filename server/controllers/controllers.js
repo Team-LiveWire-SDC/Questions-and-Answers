@@ -13,6 +13,18 @@ module.exports = {
       .catch(err => console.log(err));
   },
 
+  addQuestion: function(req, res) {
+    models.addQuestion(req)
+      .then(data => res.sendStatus(201))
+      .catch(err => console.log(err));
+  },
+
+  addAnswer: function(req, res) {
+    models.addAnswer(req)
+      .then(data => res.sendStatus(201))
+      .catch(err => console.log(err));
+  },
+
   updateQuestionHelpful: function(req, res) {
     models.incrementQuestionHelpfulness(req)
       .then(data => res.sendStatus(204))

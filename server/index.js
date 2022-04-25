@@ -9,6 +9,10 @@ app.get('/qa/questions/:product_id', controllers.getAllQuestionsByProduct)
 
 app.get('/qa/questions/:question_id/answers', controllers.getAllAnswersByQuestion)
 
+app.post('/qa/questions', controllers.addQuestion)
+
+app.post('/qa/questions/:question_id/answers', controllers.addAnswer)
+
 app.put('/qa/questions/:question_id/helpful', controllers.updateQuestionHelpful)
 
 app.put('/qa/answers/:answer_id/helpful', controllers.updateAnswerHelpful)
