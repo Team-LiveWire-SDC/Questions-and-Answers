@@ -4,7 +4,7 @@ const pool = new Pool({
   user: 'superuser',
   host: '172.31.22.163',
   database: 'questionsandanswers2',
-  password: '1234',
+  password: '',
   port: 5432,
   idleTimeoutMillis: 0,
   connectionTimeoutMillis: 0,
