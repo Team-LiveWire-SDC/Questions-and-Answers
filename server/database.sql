@@ -55,7 +55,15 @@ CREATE INDEX questionIDinanswer ON answer (question_id);
 CREATE INDEX answerIDinphoto ON photo (answer_id);
 
 CREATE INDEX answerHelpful ON answer (helpfulness);
+CREATE INDEX answerReported ON answer (reported);
+CREATE INDEX questionReported ON question (reported);
 CREATE INDEX questionHelpful ON question (question_helpfulness);
+
+-- COPY question FROM '/home/ubuntu/questionData/questions.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY answer FROM '/home/ubuntu/questionData/answers.csv' DELIMITER ',' CSV HEADER;
+
+-- COPY photo FROM '/home/ubuntu/questionData/answers_photos.csv' DELIMITER ',' CSV HEADER;
 
 
 
