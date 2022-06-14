@@ -15,8 +15,6 @@ module.exports = {
 
       let sql = `SELECT question.question_id, question.question_body, question.question_date, question.asker_name, question.question_helpfulness, question.reported, (SELECT (COALESCE(json_object_agg(answer.answer_id, json_build_object('id', answer.answer_id,'body', answer.body,'date', answer.answer_date,'answerer_name', answer.answerer_name,'helpfulness', answer.helpfulness,'photos', (SELECT (COALESCE(array_agg(json_build_object('photo_id', photo.photo_id,'photo_url', photo.photo_url)), array[]::json[])) FROM photo WHERE photo.answer_id = answer.answer_id)))::json, '{}')) FROM answer WHERE answer.question_id = question.question_id) AS answers FROM question WHERE product_id = ${productID} AND question.reported = false ORDER BY question.question_helpfulness DESC LIMIT ${limit} OFFSET ${offset};`
 
-      // EXPLAIN ANALYZE SELECT question.question_id, question.question_body, question.question_date, question.asker_name, question.question_helpfulness, question.reported, (SELECT (COALESCE(json_object_agg(answer.answer_id, json_build_object('id', answer.answer_id,'body', answer.body,'date', answer.answer_date,'answerer_name', answer.answerer_name,'helpfulness', answer.helpfulness,'photos', (SELECT (COALESCE(array_agg(json_build_object('photo_id', photo.photo_id,'photo_url', photo.photo_url)), array[]::json[])) FROM photo WHERE photo.answer_id = answer.answer_id))) FROM answer WHERE answer.question_id = question.question_id) AS answers FROM question WHERE product_id = 1 AND question.reported = false ORDER BY question.question_helpfulness DESC LIMIT 5;
-
       pool.query(sql, (err, results) => {
         if (err) {
           return reject(err);
@@ -53,28 +51,32 @@ module.exports = {
     });
   },
 
-  addQuestion: function (req) {
+  addQuestion: (body, name, email, productId) => {
     return new Promise((resolve, reject) => {
 
-      let sql = `INSERT INTO question (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) VALUES
-      (${req.body.product_id}, ${req.body.body}, ${new Date()}, ${req.body.name}, ${req.body.email}, false, 0)`
+      const date = new Date();
+      const sql = `
+      INSERT INTO question (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) VALUES ($1, $2, $3, $4, $5, false, 0)`;
 
-      pool.query(sql, [], (err, results) => {
+      pool.query(sql, [productId, body, date.toISOString(), name, email], (err, results) => {
         if (err) {
           return reject(err);
         }
         resolve(results);
       });
-    });
+    })
   },
 
-  addAnswer: function (req) {
+  addAnswer: function (body, name, email, questionId) {
     return new Promise((resolve, reject) => {
 
-      let sql = `INSERT INTO answer (question_id, body, answer_date, answerer_name, answerer_email, reported, helpfulness) VALUES
-      (${req.params.question_id}, ${req.body.body}, ${new Date()}, ${req.body.name}, ${req.body.email}, false, 0)`
+      console.log(body, name, email, questionId)
 
-      pool.query(sql, [], (err, results) => {
+      const date = new Date();
+      let sql = `
+      INSERT INTO answer (question_id, body, answer_date, answerer_name, answerer_email, reported, helpfulness) VALUES ($1, $2, $3, $4, $5, false, 0)`
+
+      pool.query(sql, [questionId, body, date.toISOString(), name, email], (err, results) => {
         if (err) {
           return reject(err);
         }

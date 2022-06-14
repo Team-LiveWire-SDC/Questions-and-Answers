@@ -4,25 +4,29 @@ module.exports = {
   getAllQuestionsByProduct: function (req, res) {
     models.getAllQuestionsByProduct(req.params.count, req.params.page, req.params.product_id)
       .then(data => res.send(data))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(501));
   },
 
   getAllAnswersByQuestion: function (req, res) {
     models.getAllAnswersByQuestion(req.params.count, req.params.page, req.params.question_id)
       .then(data => res.send(data))
-      .catch(err => console.log(err));
+      .catch(err =>  res.sendStatus(501));
   },
 
   addQuestion: function(req, res) {
-    models.addQuestion(req)
+    const { body, name, email } = req.body;
+    const productId = req.body.product_id;
+    models.addQuestion(body, name, email, productId)
       .then(data => res.sendStatus(201))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(422));
   },
 
   addAnswer: function(req, res) {
-    models.addAnswer(req)
+    const { body, name, email } = req.body;
+    const questionId = req.params.question_id;
+    models.addAnswer(body, name, email, questionId)
       .then(data => res.sendStatus(201))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(422));
   },
 
   updateQuestionHelpful: function(req, res) {

@@ -59,6 +59,9 @@ CREATE INDEX answerReported ON answer (reported);
 CREATE INDEX questionReported ON question (reported);
 CREATE INDEX questionHelpful ON question (question_helpfulness);
 
+ALTER SEQUENCE question_question_id_seq RESTART WITH 5000000;
+ALTER SEQUENCE answer_answer_id_seq RESTART WITH 5000000;
+
 -- COPY question FROM '/home/ubuntu/questionData/questions.csv' DELIMITER ',' CSV HEADER;
 
 -- COPY answer FROM '/home/ubuntu/questionData/answers.csv' DELIMITER ',' CSV HEADER;
