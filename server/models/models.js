@@ -4,7 +4,7 @@ module.exports = {
   getAllQuestionsByProduct: function (count, page, product_id) {
     return new Promise((resolve, reject) => {
       var limit = count || 5
-      var productID = product_id || 1
+      var productID = product_id
       var pageNum = page || 1
       var offset = (pageNum - 1) * limit;
 
@@ -28,7 +28,7 @@ module.exports = {
   getAllAnswersByQuestion: function (count, page, question_id) {
     return new Promise((resolve, reject) => {
       var limit = count || 5
-      var questionID = question_id || 1
+      var questionID = question_id
       var pageNum = page || 1
       var offset = (pageNum - 1) * limit;
 
@@ -69,8 +69,6 @@ module.exports = {
 
   addAnswer: function (body, name, email, questionId) {
     return new Promise((resolve, reject) => {
-
-      console.log(body, name, email, questionId)
 
       const date = new Date();
       let sql = `

@@ -32,24 +32,24 @@ module.exports = {
   updateQuestionHelpful: function(req, res) {
     models.incrementQuestionHelpfulness(req)
       .then(data => res.sendStatus(204))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(400));
   },
 
   updateAnswerHelpful: function(req, res) {
     models.incrementAnswerHelpfulness(req)
       .then(data => res.sendStatus(204))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(400));
   },
 
   reportQuestion: function(req, res) {
     models.reportQuestion(req)
       .then(data => res.sendStatus(204))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(400));
   },
 
   reportAnswer: function(req, res) {
     models.reportAnswer(req)
       .then(data => res.sendStatus(204))
-      .catch(err => console.log(err));
+      .catch(err => res.sendStatus(400));
   },
 }

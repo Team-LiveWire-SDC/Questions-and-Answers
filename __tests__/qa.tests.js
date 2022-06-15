@@ -116,30 +116,46 @@ describe('get answers route', () => {
 })
 
 describe('increment question helpfulness count', () => {
-  it('should return 204 status code', async () => {
+  it('should return 204 status code for success', async () => {
     const response = await supertest(app).put(`/qa/questions/${questionID}/helpful`);
     expect(response.statusCode).toBe(204)
+  })
+  it('should return 400 status code for failure', async () => {
+    const response = await supertest(app).put(`/qa/questions/abc/helpful`);
+    expect(response.statusCode).toBe(400)
   })
 })
 
 describe('increment answer helpfulness count', () => {
-  it('should return 204 status code', async () => {
+  it('should return 204 status code for success', async () => {
     const response = await supertest(app).put(`/qa/answers/${answerID}/helpful`);
     expect(response.statusCode).toBe(204)
+  })
+  it('should return 400 status code for failure', async () => {
+    const response = await supertest(app).put(`/qa/answers/abc/helpful`);
+    expect(response.statusCode).toBe(400)
   })
 })
 
 describe('report question', () => {
-  it('should return 204 status code', async () => {
+  it('should return 204 status code for success', async () => {
     const response = await supertest(app).put(`/qa/questions/${questionID}/report`);
     expect(response.statusCode).toBe(204)
+  })
+  it('should return 400 status code for failure', async () => {
+    const response = await supertest(app).put(`/qa/questions/abc/report`);
+    expect(response.statusCode).toBe(400)
   })
 })
 
 describe('report answer', () => {
-  it('should return 204 status code', async () => {
+  it('should return 204 status code for success', async () => {
     const response = await supertest(app).put(`/qa/answers/${answerID}/report`);
     expect(response.statusCode).toBe(204)
+  })
+  it('should return 400 status code for failure', async () => {
+    const response = await supertest(app).put(`/qa/answers/abc/report`);
+    expect(response.statusCode).toBe(400)
   })
 })
 
@@ -148,11 +164,19 @@ describe('add a question post route', () => {
     const response = await supertest(app).post(`/qa/questions`).send({body: 'new question', name: 'asker', email: 'asker@ask.com', product_id: 1});
     expect(response.statusCode).toBe(201)
   })
+  it('should return 422 status code for failure', async () => {
+    const response = await supertest(app).post(`/qa/questions`).send({body: 'new question'});
+    expect(response.statusCode).toBe(422)
+  })
 })
 
 describe('add an answer post route', () => {
-  it('should return 201 status code', async () => {
+  it('should return 201 status code for success', async () => {
     const response = await supertest(app).post(`/qa/questions/${questionID}/answers`).send({body: 'new question', name: 'asker', email: 'asker@ask.com'});
     expect(response.statusCode).toBe(201)
+  })
+  it('should return 422 status code for failure', async () => {
+    const response = await supertest(app).post(`/qa/questions/${questionID}/answers`).send({body: 'new question', name: 'asker'});
+    expect(response.statusCode).toBe(422)
   })
 })
