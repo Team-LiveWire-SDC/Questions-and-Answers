@@ -18,39 +18,39 @@ describe('get questions route', () => {
     })
     it('should have question ID number in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].question_id).not.toBe(undefined)
-      expect(typeof (response.body.results[1].question_id)).toBe('number')
+      expect(response.body.results[0].question_id).not.toBe(undefined)
+      expect(typeof (response.body.results[0].question_id)).toBe('number')
     })
     it('should have question body string in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].question_body).not.toBe(undefined)
-      expect(typeof (response.body.results[1].question_body)).toBe('string')
+      expect(response.body.results[0].question_body).not.toBe(undefined)
+      expect(typeof (response.body.results[0].question_body)).toBe('string')
     })
     it('should have question date string in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].question_date).not.toBe(undefined)
-      expect(typeof (response.body.results[1].question_date)).toBe('string')
+      expect(response.body.results[0].question_date).not.toBe(undefined)
+      expect(typeof (response.body.results[0].question_date)).toBe('string')
     })
     it('should have asker name string in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].asker_name).not.toBe(undefined)
-      expect(typeof (response.body.results[1].asker_name)).toBe('string')
+      expect(response.body.results[0].asker_name).not.toBe(undefined)
+      expect(typeof (response.body.results[0].asker_name)).toBe('string')
     })
     it('should have question helpfulness number in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].question_helpfulness).not.toBe(undefined)
-      expect(typeof (response.body.results[1].question_helpfulness)).toBe('number')
+      expect(response.body.results[0].question_helpfulness).not.toBe(undefined)
+      expect(typeof (response.body.results[0].question_helpfulness)).toBe('number')
     })
     it('should have reported boolean in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].reported).not.toBe(undefined)
-      expect(typeof (response.body.results[1].reported)).toBe('boolean')
+      expect(response.body.results[0].reported).not.toBe(undefined)
+      expect(typeof (response.body.results[0].reported)).toBe('boolean')
     })
     it('should have answers object in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}`);
-      expect(response.body.results[1].answers).not.toBe(undefined)
-      expect(typeof (response.body.results[1].answers)).toBe('object')
-      expect(Array.isArray(response.body.results[1].answers)).toBe(false)
+      expect(response.body.results[0].answers).not.toBe(undefined)
+      expect(typeof (response.body.results[0].answers)).toBe('object')
+      expect(Array.isArray(response.body.results[0].answers)).toBe(false)
     })
   })
 
@@ -77,33 +77,33 @@ describe('get answers route', () => {
     })
     it('should have answer ID number in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}/answers`);
-      expect(response.body.results[1].answer_id).not.toBe(undefined)
-      expect(typeof (response.body.results[1].answer_id)).toBe('number')
+      expect(response.body.results[0].answer_id).not.toBe(undefined)
+      expect(typeof (response.body.results[0].answer_id)).toBe('number')
     })
     it('should have answer body string in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}/answers`);
-      expect(response.body.results[1].body).not.toBe(undefined)
-      expect(typeof (response.body.results[1].body)).toBe('string')
+      expect(response.body.results[0].body).not.toBe(undefined)
+      expect(typeof (response.body.results[0].body)).toBe('string')
     })
     it('should have answer date string in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}/answers`);
-      expect(response.body.results[1].answer_date).not.toBe(undefined)
-      expect(typeof (response.body.results[1].answer_date)).toBe('string')
+      expect(response.body.results[0].answer_date).not.toBe(undefined)
+      expect(typeof (response.body.results[0].answer_date)).toBe('string')
     })
     it('should have answerer name string in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}/answers`);
-      expect(response.body.results[1].answerer_name).not.toBe(undefined)
-      expect(typeof (response.body.results[1].answerer_name)).toBe('string')
+      expect(response.body.results[0].answerer_name).not.toBe(undefined)
+      expect(typeof (response.body.results[0].answerer_name)).toBe('string')
     })
     it('should have helpfulness number in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}/answers`);
-      expect(response.body.results[1].helpfulness).not.toBe(undefined)
-      expect(typeof (response.body.results[1].helpfulness)).toBe('number')
+      expect(response.body.results[0].helpfulness).not.toBe(undefined)
+      expect(typeof (response.body.results[0].helpfulness)).toBe('number')
     })
     it('should have photo array in result array', async () => {
       const response = await supertest(app).get(`/qa/questions/${productID}/answers`);
-      expect(response.body.results[1].photos).not.toBe(undefined)
-      expect(Array.isArray(response.body.results[1].photos)).toBe(true)
+      expect(response.body.results[0].photos).not.toBe(undefined)
+      expect(Array.isArray(response.body.results[0].photos)).toBe(true)
     })
   })
 
