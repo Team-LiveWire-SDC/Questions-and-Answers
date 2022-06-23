@@ -6,6 +6,7 @@ const incrementQuestionHelpful = require('../models/incrementQuestionHelpful')
 const incrementAnswerHelpful = require('../models/incrementAnswerHelpful')
 const reportQuestion = require('../models/reportQuestion')
 const reportAnswer = require('../models/reportAnswer')
+const editQuestion = require('../models/editQuestion')
 
 module.exports = {
   getAllQuestionsByProduct: function (req, res) {
@@ -63,5 +64,13 @@ module.exports = {
     reportAnswer(answer_id)
       .then(data => res.sendStatus(204))
       .catch(err => res.sendStatus(400));
+  },
+
+  editQuestion: function (req, res) {
+    const question_body = req.body.question_body;
+    const question_id = req.params.question_id;
+    editQuestion(question_body, question_id)
+      .then(data => res.send(data))
+      .catch(err => res.sendStatus(400))
   }
 }

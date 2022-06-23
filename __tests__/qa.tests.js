@@ -3,9 +3,10 @@ const { createServer } = require('../server/create');
 
 const app = createServer();
 const db = require('../server/db');
-const productID = 1
-const questionID = 1
-const answerID = 1
+
+const productID = 1;
+const questionID = 1;
+const answerID = 1;
 
 describe('get questions route', () => {
   describe('given product exists', () => {
@@ -180,3 +181,43 @@ describe('add an answer post route', () => {
     expect(response.statusCode).toBe(422)
   })
 })
+
+describe.only('edit a question patch route', () => {
+  it('should return 204 status code for success', async () => {
+    const response = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({question_body: 'changed question'});
+    expect(response.statusCode).toBe(200)
+  })
+  it('should return 400 status code for failure', async () => {
+    const response = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({});
+    expect(response.statusCode).toBe(400)
+  })
+  it('should successfully change question body in database', async () => {
+    const firstGetResponse = await supertest(app).get(`/qa/questions/1`);
+    const initalQuestionBody = JSON.parse(firstGetResponse.text).results[0].question_body;
+
+    const editRequest = await supertest(app).patch(`/qa/questions/3/edit`).send({question_body: 'changed question'});
+    const updatedQuestionBody = JSON.parse(editRequest.text).rows[0].updated_question_body
+
+    expect(updatedQuestionBody).not.toBe(initalQuestionBody)
+    expect(updatedQuestionBody).toBe('changed question')
+  })
+})
+
+afterAll(async () => {
+  await db.end()
+})
+
+
+// describe.only('edit a answer patch route', () => {
+//   it('should return 204 status code for success', async () => {
+//     const response = await supertest(app).patch(`/qa/answers/${answerID}/edit`).send({answer_body: 'answer question'});
+//     expect(response.statusCode).toBe(204)
+//   })
+//   it('should return 400 status code for failure', async () => {
+//     const response = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({});
+//     expect(response.statusCode).toBe(400)
+//   })
+// })
+
+    // const secondGetResponse =  await supertest(app).get(`/qa/questions/${questionID}`);
+    // const updatedQuestionBody = editRequest.body[1].rows[0].question_body

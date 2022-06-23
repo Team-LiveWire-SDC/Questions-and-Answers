@@ -29,6 +29,8 @@ const createServer = () => {
 
   app.put('/qa/answers/:answer_id/report', controllers.reportAnswer)
 
+  app.patch(`/qa/questions/:question_id/edit`, controllers.editQuestion)
+
   return app;
 };
 
