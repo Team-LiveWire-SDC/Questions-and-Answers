@@ -13,7 +13,7 @@ module.exports =
         results: []
       }
 
-      let sql = `SELECT question.question_id, question.question_body, question.question_date, question.asker_name, question.question_helpfulness, question.reported, (SELECT (COALESCE(json_object_agg(answer.answer_id, json_build_object('id', answer.answer_id,'body', answer.body,'date', answer.answer_date,'answerer_name', answer.answerer_name,'helpfulness', answer.helpfulness,'photos', (SELECT (COALESCE(array_agg(json_build_object('photo_id', photo.photo_id,'photo_url', photo.photo_url)), array[]::json[])) FROM photo WHERE photo.answer_id = answer.answer_id)))::json, '{}')) FROM answer WHERE answer.question_id = question.question_id) AS answers FROM question WHERE product_id = ${productID} AND question.reported = false ORDER BY question.question_helpfulness DESC LIMIT ${limit} OFFSET ${offset};`
+      const sql = `SELECT question.question_id, question.question_body, question.question_date, question.asker_name, question.question_helpfulness, question.reported, (SELECT (COALESCE(json_object_agg(answer.answer_id, json_build_object('id', answer.answer_id,'body', answer.body,'date', answer.answer_date,'answerer_name', answer.answerer_name,'helpfulness', answer.helpfulness,'photos', (SELECT (COALESCE(array_agg(json_build_object('photo_id', photo.photo_id,'photo_url', photo.photo_url)), array[]::json[])) FROM photo WHERE photo.answer_id = answer.answer_id)))::json, '{}')) FROM answer WHERE answer.question_id = question.question_id) AS answers FROM question WHERE product_id = ${productID} AND question.reported = false ORDER BY question.question_helpfulness DESC LIMIT ${limit} OFFSET ${offset};`
 
       pool.query(sql, (err, results) => {
         if (err) {

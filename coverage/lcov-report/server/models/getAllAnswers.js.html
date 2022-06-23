@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,54 +94,54 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const pool = require('../db.js')
 &nbsp;
 module.exports =
-<span class="fstat-no" title="function not covered" >  (c</span>ount, page, question_id) =&gt; {
-<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve, reject) =&gt; {</span>
-      var limit = <span class="cstat-no" title="statement not covered" >count || 5</span>
-      var questionID = <span class="cstat-no" title="statement not covered" >question_id</span>
-      var pageNum = <span class="cstat-no" title="statement not covered" >page || 1</span>
-      var offset = <span class="cstat-no" title="statement not covered" >(pageNum - 1) * limit;</span>
+  (count, page, question_id) =&gt; {
+    return new Promise((resolve, reject) =&gt; {
+      var limit = count || 5
+      var questionID = question_id
+      var pageNum = page || 1
+      var offset = (pageNum - 1) * limit;
 &nbsp;
-      var obj = <span class="cstat-no" title="statement not covered" >{</span>
+      var obj = {
         question: questionID,
         page: pageNum,
         count: limit,
         results: []
       }
 &nbsp;
-      let sql = <span class="cstat-no" title="statement not covered" >`SELECT answer.answer_id, answer.body, answer.answer_date, answer.answerer_name, answer.helpfulness, (SELECT (COALESCE(array_agg(json_build_object('photo_id', photo.photo_id,'photo_url', photo.photo_url)), array[]::json[])) FROM photo WHERE photo.answer_id = answer.answer_id) AS photos FROM answer WHERE answer.question_id = ${questionID} AND answer.reported = false ORDER BY answer.helpfulness DESC LIMIT ${limit} OFFSET ${offset};`</span>
+      const sql = `SELECT answer.answer_id, answer.body, answer.answer_date, answer.answerer_name, answer.helpfulness, (SELECT (COALESCE(array_agg(json_build_object('photo_id', photo.photo_id,'photo_url', photo.photo_url)), array[]::json[])) FROM photo WHERE photo.answer_id = answer.answer_id) AS photos FROM answer WHERE answer.question_id = ${questionID} AND answer.reported = false ORDER BY answer.helpfulness DESC LIMIT ${limit} OFFSET ${offset};`
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      pool.query(sql, <span class="fstat-no" title="function not covered" >(e</span>rr, results) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (err) {</span>
-<span class="cstat-no" title="statement not covered" >          return reject(err);</span>
+      pool.query(sql, (err, results) =&gt; {
+        if (err) {
+          return reject(err);
         }
-<span class="cstat-no" title="statement not covered" >        obj.results = results.rows</span>
-<span class="cstat-no" title="statement not covered" >        resolve(obj);</span>
+        obj.results = results.rows
+        resolve(obj);
       });
     });
   }</pre></td></tr></table></pre>
@@ -151,7 +151,7 @@ module.exports =
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Jun 22 2022 18:12:49 GMT-0700 (Pacific Daylight Time)
+                at Wed Jun 22 2022 21:01:29 GMT-0700 (Pacific Daylight Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

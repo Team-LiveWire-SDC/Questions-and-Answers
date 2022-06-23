@@ -5,12 +5,8 @@ const app = createServer();
 const db = require('../server/db');
 
 const productID = 1;
-const questionID = 1;
+const questionID = 3;
 const answerID = 1;
-
-// beforeAll(async () => {
-//   await db
-// })
 
 describe('get questions route', () => {
   describe('given product exists', () => {
@@ -122,94 +118,123 @@ describe('get answers route', () => {
 
 describe('increment question helpfulness count', () => {
   it('should return 204 status code for success', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/questions/${questionID}/helpful`);
     expect(response.statusCode).toBe(204)
+    await db.query('ROLLBACK');
   })
   it('should return 400 status code for failure', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/questions/abc/helpful`);
     expect(response.statusCode).toBe(400)
+    await db.query('ROLLBACK');
   })
 })
 
 describe('increment answer helpfulness count', () => {
   it('should return 204 status code for success', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/answers/${answerID}/helpful`);
     expect(response.statusCode).toBe(204)
+    await db.query('ROLLBACK');
   })
   it('should return 400 status code for failure', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/answers/abc/helpful`);
     expect(response.statusCode).toBe(400)
+    await db.query('ROLLBACK');
   })
 })
 
 describe('report question', () => {
   it('should return 204 status code for success', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/questions/${questionID}/report`);
     expect(response.statusCode).toBe(204)
+    await db.query('ROLLBACK');
   })
   it('should return 400 status code for failure', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/questions/abc/report`);
     expect(response.statusCode).toBe(400)
+    await db.query('ROLLBACK');
   })
 })
 
 describe('report answer', () => {
   it('should return 204 status code for success', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/answers/${answerID}/report`);
     expect(response.statusCode).toBe(204)
+    await db.query('ROLLBACK');
   })
   it('should return 400 status code for failure', async () => {
+    await db.query('BEGIN');
     const response = await supertest(app).put(`/qa/answers/abc/report`);
     expect(response.statusCode).toBe(400)
+    await db.query('ROLLBACK');
   })
 })
 
 describe('add a question post route', () => {
   it('should return 201 status code', async () => {
-    const response = await supertest(app).post(`/qa/questions`).send({body: 'new question', name: 'asker', email: 'asker@ask.com', product_id: 1});
+    await db.query('BEGIN');
+    const response = await supertest(app).post(`/qa/questions`).send({ body: 'new question', name: 'asker', email: 'asker@ask.com', product_id: 1 });
     expect(response.statusCode).toBe(201)
+    await db.query('ROLLBACK');
   })
   it('should return 422 status code for failure', async () => {
-    const response = await supertest(app).post(`/qa/questions`).send({body: 'new question'});
+    await db.query('BEGIN');
+    const response = await supertest(app).post(`/qa/questions`).send({ body: 'new question' });
     expect(response.statusCode).toBe(422)
+    await db.query('ROLLBACK');
   })
 })
 
 describe('add an answer post route', () => {
   it('should return 201 status code for success', async () => {
-    const response = await supertest(app).post(`/qa/questions/${questionID}/answers`).send({body: 'new question', name: 'asker', email: 'asker@ask.com'});
+    await db.query('BEGIN');
+    const response = await supertest(app).post(`/qa/questions/${questionID}/answers`).send({ body: 'new question', name: 'asker', email: 'asker@ask.com' });
     expect(response.statusCode).toBe(201)
+    await db.query('ROLLBACK');
   })
   it('should return 422 status code for failure', async () => {
-    const response = await supertest(app).post(`/qa/questions/${questionID}/answers`).send({body: 'new question', name: 'asker'});
+    await db.query('BEGIN');
+    const response = await supertest(app).post(`/qa/questions/${questionID}/answers`).send({ body: 'new question', name: 'asker' });
     expect(response.statusCode).toBe(422)
+    await db.query('ROLLBACK');
   })
 })
 
-describe.only('edit a question patch route', () => {
+describe('edit a question patch route', () => {
+
   it('should return 204 status code for success', async () => {
-    const response = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({question_body: 'changed question'});
+    await db.query('BEGIN');
+    const response = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({ question_body: 'changed question' });
     expect(response.statusCode).toBe(200)
+    await db.query('ROLLBACK');
   })
   it('should return 400 status code for failure', async () => {
     const response = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({});
     expect(response.statusCode).toBe(400)
   })
   it('should successfully change question body in database', async () => {
-    const firstGetResponse = await supertest(app).get(`/qa/questions/1`);
+    await db.query('BEGIN');
+    const firstGetResponse = await supertest(app).get(`/qa/questions/${productID}`);
     const initalQuestionBody = JSON.parse(firstGetResponse.text).results[0].question_body;
 
-    const editRequest = await supertest(app).patch(`/qa/questions/3/edit`).send({question_body: 'changed question'});
+    const editRequest = await supertest(app).patch(`/qa/questions/${questionID}/edit`).send({ question_body: 'changed question' });
     const updatedQuestionBody = JSON.parse(editRequest.text).rows[0].updated_question_body
 
     expect(updatedQuestionBody).not.toBe(initalQuestionBody)
     expect(updatedQuestionBody).toBe('changed question')
+    await db.query('ROLLBACK');
   })
 })
 
-// afterAll(async () => {
-//   await db.end()
-// })
+afterAll(async () => {
+  await db.end()
+})
 
 
 // describe.only('edit a answer patch route', () => {

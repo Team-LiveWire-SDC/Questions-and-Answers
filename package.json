@@ -7,7 +7,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
-    "postgres": "^3.0.6"
+    "postgres": "^3.0.6",
+    "dotenv": "^9.0.2"
   },
   "scripts": {
     "start": "nodemon server/index.js",

@@ -5,7 +5,7 @@ module.exports =
     return new Promise((resolve, reject) => {
 
       const date = new Date();
-      let sql = `
+      const sql = `
       INSERT INTO answer (question_id, body, answer_date, answerer_name, answerer_email, reported, helpfulness) VALUES ($1, $2, $3, $4, $5, false, 0)`
 
       pool.query(sql, [question_id, body, date.toISOString(), name, email], (err, results) => {
