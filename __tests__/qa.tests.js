@@ -2,15 +2,15 @@ const supertest = require('supertest');
 const { createServer } = require('../server/create');
 
 const app = createServer();
-// const db = require('../server/db');
+const db = require('../server/db');
 
 const productID = 1;
 const questionID = 1;
 const answerID = 1;
 
-afterAll(async () => {
-  await db.end()
-})
+// beforeAll(async () => {
+//   await db
+// })
 
 describe('get questions route', () => {
   describe('given product exists', () => {
@@ -207,9 +207,9 @@ describe.only('edit a question patch route', () => {
   })
 })
 
-afterAll(async () => {
-  await db.end()
-})
+// afterAll(async () => {
+//   await db.end()
+// })
 
 
 // describe.only('edit a answer patch route', () => {
