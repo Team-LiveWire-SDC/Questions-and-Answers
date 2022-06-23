@@ -2,11 +2,15 @@ const supertest = require('supertest');
 const { createServer } = require('../server/create');
 
 const app = createServer();
-const db = require('../server/db');
+// const db = require('../server/db');
 
 const productID = 1;
 const questionID = 1;
 const answerID = 1;
+
+afterAll(async () => {
+  await db.end()
+})
 
 describe('get questions route', () => {
   describe('given product exists', () => {
